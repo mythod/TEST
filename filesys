@@ -1,0 +1,4 @@
+!#/bin/bash
+
+#-Displays file system and corresponding sizes:
+du --threshold=1M -h | sort -h

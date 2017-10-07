@@ -1,0 +1,12 @@
+#!/bin/bash
+
+#-Top 10 preocesses consuming memory:
+echo -e "\e[31;43m****TOP 10 MEMORY-USING PROCESSES****\e[0m"
+ps -eo %mem,%cpu,comm --sort=-%mem | head -n 11
+
+#-Top 10 processes consuming CPU:
+echo -e "\e[31;43m****TOP 10 CPU-USING PROCESSES****\e[0m"
+top -bn1 | grep load | awk '{printf "%2.f%%\t\tn", $(NF-2)}'
+
+
+

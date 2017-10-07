@@ -1,0 +1,66 @@
+#!/bin/bash
+#-Hostname Info:
+echo -e "\e[31;43m****HOSTNAME INFO****\e[0m"
+hostnamectl
+echo ""
+#-File system Disk Usage:
+echo -e "\e[31;43m****FILE SYSTEM DISK USAGE****\e[0m"
+df -h 
+echo ""
+#-Free/Used memory in the system:
+echo -e "\e[31;43m****FREE/USED MEMORY****\e[0m"
+free
+echo ""
+#-System uptime and load:
+echo -e "\e[31;43m****SYSTEM UPTIME/LOAD****\e[0m"
+uptime
+echo ""
+#-Logged in users:
+echo -e "\e[31;43m****USERS CURRENTLY LOGGED IN****\e[0m"
+who
+echo ""
+#-Top 10 preocesses consuming memory:
+echo -e "\e[31;43m****TOP 10 MEMORY-USING PROCESSES****\e[0m"
+ps -eo %mem,%cpu,comm --sort=-%mem | head -n 11
+echo ""
+echo -e "\e[1;32mDone.\e[0m"
+
+WEB_DIR=/var/www/html
+echo "<HTML>
+<HEAD>
+<style>
+.titulo{font-size:1em; color:white; background:#0863CE; padding:0.1em 0.2em;}
+table
+{
+border-collapse:collapse;
+}
+table, td, th
+{
+border: 1px soild black;
+}
+</style>
+<meta http-equiv='Content-Type' comment='text/html; charset=UTF-8' />
+</HEAD>
+<BODY>">$WEB_DIR/report.html
+
+#View hostname and insert it at the top of the html body
+HOST=$(hostname)
+echo "Filesystem usage for host<strong>$HOST,</strong><br>
+Last Updated:<strong>$(date)</strong><br>
+<table border='1'>
+<tr><th class='titulo'>Filesystem</td>
+<th class='titulo'>Size</td>
+<th class='titulo'>Use %</td>
+</tr>">>$WEB_DIR/report.html
+
+#Read the output of dh -h line by line
+while read line; do
+echo "<tr><td align='center'>">>$WEB_DIR/report.html
+echo $line | awk '{print$1}'>>$WEB_DIR/report.html
+echo "</td><td align='center'>">>$WEB_DIR/report.html
+echo $line | awk '{print$2}' >> $WEB_DIR/report.hmtl
+echo "</td><td align='center'>">> $WEB_DIR/report.hmtl
+echo $line | swk '{print $5}'>>$WEB_DIR/report.html
+echo "</td></tr>" >> $WEB_DIR/report.html
+done< <(df -h | grep -nano filesystem)
+echo "</table></BODY></HTML>">>$WEB_DIR/report.html

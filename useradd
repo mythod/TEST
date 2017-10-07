@@ -1,0 +1,18 @@
+!#/bin/bash
+
+#Script to add user to system and group
+
+#Command adds users to system:
+adduser --disabled-password --gecos bill
+adduser --disabled-password --gecos mark
+adduser --disabled-password --gecos mike
+
+#Command creates a new group:
+addgroup sales
+
+#Command adds users to group:
+adduser bill sales
+adduser mike sales
+adduser mark sales
+
+

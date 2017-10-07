@@ -1,0 +1,6 @@
+!#/bin/bash
+
+#-A Script to view the current syslog:
+grep -A 20 2017-09-24 /var/log/syslog.1
+
+
